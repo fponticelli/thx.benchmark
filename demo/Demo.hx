@@ -1,3 +1,4 @@
+import thx.benchmark.speed.SpeedSuite;
 import thx.benchmark.speed.SpeedTest;
 
 class Demo {
@@ -11,6 +12,9 @@ class Demo {
     test.add("multiplication", function() {
       m = 2 * m;
     });
-    test.run(10000000);
+
+    var suite = new SpeedSuite();
+    suite.addTest("math operators", test, 10000000);
+    suite.run();
   }
 }

@@ -3,7 +3,7 @@ package thx.benchmark.speed;
 using thx.core.Arrays;
 using thx.core.Floats;
 
-class SpeedSummary {
+class SpeedTestSummary {
   public var repetitions : Int;
   public var totalTime : Float;
   public var results : Array<SpeedResult>;

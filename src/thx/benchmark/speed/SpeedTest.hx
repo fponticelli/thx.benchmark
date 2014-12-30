@@ -36,12 +36,12 @@ class SpeedTest {
       ),
       isReference);
 
-  public function execute(repetitions = 100000, callback : SpeedSummary -> Void) {
+  public function execute(repetitions = 100000, callback : SpeedTestSummary -> Void) {
     var overallStart = Timer.time();
     function done() {
       var delta = Timer.time() - overallStart;
       var results = cases.iterator().toArray();
-      callback(new SpeedSummary(repetitions, delta, results));
+      callback(new SpeedTestSummary(repetitions, delta, results));
     }
     function loop() {
       // collect randomized test sequence
