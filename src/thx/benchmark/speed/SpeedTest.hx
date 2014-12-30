@@ -61,7 +61,11 @@ class SpeedTest {
       }
       test();
     }
-
     loop();
   }
+
+  public function run(?repetitions : Int)
+    execute(repetitions, function(summary) {
+      trace(summary.toString());
+    });
 }

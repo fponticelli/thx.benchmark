@@ -11,8 +11,6 @@ class Demo {
     test.add("multiplication", function() {
       m = 2 * m;
     });
-    test.execute(10000000, function(results) {
-      trace(results.toString());
-    });
+    test.run(10000000);
   }
 }
