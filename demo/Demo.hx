@@ -1,4 +1,4 @@
-import thx.benchmark.SpeedTest;
+import thx.benchmark.speed.SpeedTest;
 
 class Demo {
   public static function main() {
@@ -11,7 +11,7 @@ class Demo {
     test.add("multiplication", function() {
       m = 2 * m;
     });
-    test.execute(100000000, function(results) {
+    test.execute(10000000, function(results) {
       trace(results.toString());
     });
   }
