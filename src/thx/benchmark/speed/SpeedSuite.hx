@@ -2,6 +2,7 @@ package thx.benchmark.speed;
 
 using thx.core.Arrays;
 using thx.core.Floats;
+using thx.core.Timer;
 
 class SpeedSuite {
   var tests : Array<{ description : String, test : SpeedTest, repetitions : Null<Int> }>;
@@ -28,7 +29,7 @@ class SpeedSuite {
     }
     tests.pluck(collect.set(_, []));
 
-    var loop= null;
+    var loop = null;
 
     function sample() {
       if(index == tests.length) {
@@ -36,10 +37,16 @@ class SpeedSuite {
         loop();
       } else {
         var item = tests[index++];
-        item.test.execute(item.repetitions, function(summary) {
-          collect.get(item).push(summary);
-          sample();
-        });
+#if (js || flash)
+//        Timer.delay(function() {
+#end
+          item.test.execute(item.repetitions, function(summary) {
+            collect.get(item).push(summary);
+            sample();
+          });
+#if (js || flash)
+//        }, 100);
+#end
       }
     }
 
