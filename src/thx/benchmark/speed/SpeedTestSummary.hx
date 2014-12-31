@@ -2,11 +2,13 @@ package thx.benchmark.speed;
 
 using thx.core.Arrays;
 using thx.core.Floats;
+using thx.core.Ints;
 
 class SpeedTestSummary {
   public var repetitions : Int;
   public var totalTime : Float;
   public var results : Array<SpeedResult>;
+
   public function new(repetitions : Int, totalTime : Float, results : Array<SpeedResult>) {
     this.repetitions = repetitions;
     this.totalTime = totalTime;
@@ -28,11 +30,26 @@ class SpeedTestSummary {
   }
 
   public function toString() {
-    return '
-repetitions: $repetitions
-total time: ${totalTime.roundTo(2)}ms
+    var referenceTime = results.find(function(item) return item.isReference).time,
+        descriptionLength = results.reduce(function(acc : Int, item : SpeedResult) : Int {
+            return acc.max(item.description.length);
+          }, 0),
+        fastest = results.reducei(function(acc, item, i) {
+            if(acc < 0 || results[acc].time > item.time)
+              return i;
+            return acc;
+          }, -1),
+        slowest = results.reducei(function(acc, item, i) {
+            if(acc < 0 || results[acc].time < item.time)
+              return i;
+            return acc;
+          }, -1);
 
-${results.pluck(_.toString()).join("\n")}
+    return '
+repetitions..: $repetitions
+total time...: ${totalTime.roundTo(2)}ms
+
+${results.plucki((i == fastest ? "+ " : i == slowest ? "- " : "  ") + _.toStringComparison(descriptionLength, referenceTime)).join("\n")}
 ';
   }
 }
