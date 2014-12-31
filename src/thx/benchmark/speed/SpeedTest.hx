@@ -14,7 +14,7 @@ class SpeedTest {
 
   public function addCase(test : ISpeedCase, isReference = false) {
     if(isReference && null != reference) throw 'reference already set to ${reference.description}';
-    cases.set(test, new SpeedResult(index++, test.description, false));
+    cases.set(test, new SpeedResult(index++, test.description, isReference));
   }
 
   public function add(description : String, test : Void -> Void, ?isReference = false)
