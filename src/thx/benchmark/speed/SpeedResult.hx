@@ -20,15 +20,17 @@ class SpeedResult {
 
   public function toStringComparison(descriptionLen : Int, reference : Float) {
     var des = description.rpad(".", descriptionLen),
-        round = 2,
-        per = ""+((reference / time) * 100).roundTo(round),
+        round = 1,
+        delta = 1 - time / reference,
+        per = ""+(delta * 100).roundTo(round),
         parts = per.split(".");
     if(1 == parts.length)
       parts[1] = "0".repeat(round);
     else
       parts[1] = parts[1].rpad("0", round);
 
-    per = parts.join(".");
-    return '${isReference ? "* " : "  "}$des..: ${per.lpad(" ", 8)}% (${time.roundTo(3)}ms)';
+    per = parts.join(".") +"%";
+    per = delta < 0 ? per : '+$per';
+    return '${isReference ? "* " : "  "}$des..: ${(reference == time ? "- " : per).lpad(" ", 8)} (${time.roundTo(3)}ms)';
   }
 }
