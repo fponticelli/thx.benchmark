@@ -15,7 +15,7 @@ class SpeedResult {
   };
 
   public function toString() {
-    return '${isReference ? "* " : "  "} $description: ${time.roundTo(3)}ms';
+    return '${isReference ? "* " : "  "} $description: ${time.roundTo(1)}ms';
   }
 
   public function toStringComparison(descriptionLen : Int, reference : Float) {
@@ -31,6 +31,6 @@ class SpeedResult {
 
     per = parts.join(".") +"%";
     per = delta < 0 ? per : '+$per';
-    return '${isReference ? "* " : "  "}$des..: ${(reference == time ? "- " : per).lpad(" ", 8)} (${time.roundTo(3)}ms)';
+    return '${isReference ? "* " : "  "}$des..: ${(reference == time ? "- " : per).lpad(" ", 8)} (${time.roundTo(1)}ms)';
   }
 }
