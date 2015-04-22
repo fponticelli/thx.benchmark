@@ -1,8 +1,8 @@
 package thx.benchmark.speed;
 
-using thx.core.Arrays;
-using thx.core.Floats;
-using thx.core.Timer;
+using thx.Arrays;
+using thx.Floats;
+using thx.Timer;
 
 class SpeedSuite {
   var tests : Array<{ description : String, test : SpeedTest, repetitions : Null<Int> }>;

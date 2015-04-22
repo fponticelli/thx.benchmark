@@ -1,7 +1,7 @@
 package thx.benchmark.speed;
 
-using thx.core.Floats;
-using thx.core.Strings;
+using thx.Floats;
+using thx.Strings;
 
 class SpeedResult {
   public var index : Int;

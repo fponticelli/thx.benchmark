@@ -1,8 +1,8 @@
 package thx.benchmark.speed;
 
-using thx.core.Arrays;
-using thx.core.Ints;
-using thx.core.Strings;
+using thx.Arrays;
+using thx.Ints;
+using thx.Strings;
 
 class SpeedSuiteSummary {
   var list : Array<{ description : String, summary : SpeedTestSummary }>;

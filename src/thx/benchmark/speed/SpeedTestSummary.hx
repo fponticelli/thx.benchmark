@@ -1,8 +1,8 @@
 package thx.benchmark.speed;
 
-using thx.core.Arrays;
-using thx.core.Floats;
-using thx.core.Ints;
+using thx.Arrays;
+using thx.Floats;
+using thx.Ints;
 
 class SpeedTestSummary {
   public var repetitions : Int;

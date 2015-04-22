@@ -1,8 +1,8 @@
 package thx.benchmark.speed;
 
-using thx.core.Arrays;
-using thx.core.Iterators;
-import thx.core.Timer;
+using thx.Arrays;
+using thx.Iterators;
+import thx.Timer;
 
 class SpeedTest {
   var cases : Map<ISpeedCase, SpeedResult>;
