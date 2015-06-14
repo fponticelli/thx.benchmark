@@ -2,6 +2,7 @@ package thx.benchmark.speed;
 
 using thx.Arrays;
 using thx.Floats;
+using thx.Functions;
 using thx.Ints;
 
 class SpeedTestSummary {
@@ -18,7 +19,7 @@ class SpeedTestSummary {
   }
 
   function sortAndEndureReference() {
-    if(results.filterPluck(_.isReference).length == 0) {
+    if(results.filter.fn(_.isReference).length == 0) {
       results.sort(function(a, b) {
         return a.time.compare(b.time);
       });
@@ -49,7 +50,7 @@ class SpeedTestSummary {
 repetitions..: $repetitions
 total time...: ${totalTime.roundTo(2)}ms
 
-${results.plucki((i == fastest ? "+ " : i == slowest ? "- " : "  ") + _.toStringComparison(descriptionLength, referenceTime)).join("\n")}
+${results.mapi.fn((_1 == fastest ? "+ " : _1 == slowest ? "- " : "  ") + _.toStringComparison(descriptionLength, referenceTime)).join("\n")}
 ';
   }
 }

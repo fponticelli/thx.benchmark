@@ -2,6 +2,7 @@ package thx.benchmark.speed;
 
 using thx.Arrays;
 using thx.Floats;
+using thx.Functions;
 using thx.Timer;
 
 class SpeedSuite {
@@ -27,7 +28,7 @@ class SpeedSuite {
     if(null == outliers || outliers * 2 >= samples) {
       outliers = (samples * 0.25).floor();
     }
-    tests.pluck(collect.set(_, []));
+    tests.map.fn(collect.set(_, []));
 
     var loop = null;
 
@@ -52,7 +53,7 @@ class SpeedSuite {
 
     loop = function() {
       if(counter == samples) {
-        var list = tests.pluck({
+        var list = tests.map.fn({
             description : _.description,
             summary : summaryAverage(collect.get(_), outliers)
           });
@@ -68,7 +69,7 @@ class SpeedSuite {
 
   static function summaryAverage(summaries : Array<SpeedTestSummary>, outliers : Int) {
     var repetitions = summaries[0].repetitions,
-        totalTime = summaries.pluck(_.totalTime).average(),
+        totalTime = summaries.map.fn(_.totalTime).average(),
         results = summaries
           .map(function(summary : SpeedTestSummary) {
             return summary.results.order(function(a, b) return a.index - b.index);
@@ -79,7 +80,7 @@ class SpeedSuite {
             results = results.slice(outliers, results.length - outliers);
             // TODO we can collect more stats here
             var result = new SpeedResult(results[0].index, results[0].description, results[0].isReference);
-            result.time = results.pluck(_.time).average();
+            result.time = results.map.fn(_.time).average();
             return result;
           });
     // TODO can provide more info here (number of sampling and outliers)

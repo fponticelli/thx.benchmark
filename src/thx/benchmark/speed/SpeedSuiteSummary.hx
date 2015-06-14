@@ -1,6 +1,7 @@
 package thx.benchmark.speed;
 
 using thx.Arrays;
+using thx.Functions;
 using thx.Ints;
 using thx.Strings;
 
@@ -25,5 +26,5 @@ ${indent(item.summary.toString().trim())}
   }
 
   public static function indent(s : String)
-    return s.split("\n").pluck(_.length == 0 ? "" : '  $_').join("\n");
+    return s.split("\n").map.fn(_.length == 0 ? "" : '  $_').join("\n");
 }
