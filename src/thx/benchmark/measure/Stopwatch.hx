@@ -52,7 +52,7 @@ Elapsed time in seconds.
   }
 
   function get_elapsed()
-    return elapsed + (isRunning ? timer() - startTime : 0);
+    return _elapsed + (isRunning ? timer() - startTime : 0);
 
 
   function get_elapsedSeconds()
