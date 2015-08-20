@@ -29,6 +29,13 @@ class Tracker {
   inline public static function timers()
     return instance.iterator();
 
+  // TODO, can be optimized by using a macro and unwrapping `f`
+  inline public static function wrap(f : Void -> Void, name : String) {
+    startTimer(name);
+    f();
+    stopTimer(name);
+  }
+
   var watches : Map<String, Stopwatch>;
   var timer : Void -> Float;
   public function new(?timer : Void -> Float) {
