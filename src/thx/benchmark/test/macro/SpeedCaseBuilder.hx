@@ -36,21 +36,27 @@ class SpeedCaseBuilder {
     };
   }
 
+  static function getFieldExpression(name : String, fields : Array<Field>) {
+    var field = fields.find(function(field) return field.name == name);
+    return extractExpression(field.kind);
+  }
+
   static function constructSubType(cls : ClassType, fields : Array<Field>) {
-    var description = fields.find(function(field) return field.name == "description");
-    $type(description.kind);
-    var descriptionExpression = extractExpression(description.kind);
-    var setup = fields.find(function(field) return field.name == "setup");
-    var setupExpression = extractExpression(setup.kind);
-    var teardown = fields.find(function(field) return field.name == "teardown");
-    var teardownExpression = extractExpression(teardown.kind);
-    var test = fields.find(function(field) return field.name == "test");
-    var testExpression = extractExpression(test.kind);
+    var usings = Context.getLocalUsing(),
+        imports = Context.getLocalImports();
+    var descriptionExpression = getFieldExpression("description", fields);
+    var setupExpression = getFieldExpression("setup", fields);
+    var teardownExpression = getFieldExpression("teardown", fields);
+    var testExpression = getFieldExpression("test", fields);
+
+    // TODO locals are missing
+    var remaining = fields.filter(function(field) return !["description", "setup", "teardown", "test"].contains(field.name));
+    trace(remaining.map(function(field) return field.name));
 
     var loopExpression = macro {
       var start, end, span;
       start = thx.Timer.time();
-      while(--loop >= 0)
+      while(--counter >= 0)
         $e{testExpression}
       end = thx.Timer.time();
       span = end - start;
@@ -63,7 +69,7 @@ class SpeedCaseBuilder {
           [closingExpression]
         ].flatten();
     trace(haxe.macro.ExprTools.toString(macro $b{testSpeedExpressions}));
-    var fields = [{
+    var fields = remaining.concat([{
       pos: cls.pos,
       name: "description",
       kind: FVar(macro : String, descriptionExpression),
@@ -77,19 +83,31 @@ class SpeedCaseBuilder {
         args : [{name : "counter", type : macro : Int}]
       }),
       access: [APublic],
-    }];
+    }]);
     var interfaces = [{ pack : ["thx","benchmark","test"], name : "ISpeedTest" }];
+    var clsName = '${cls.name}_SpeedTest';
     var typeDefinition = {
       pos: cls.pos,
       params: null,
       pack: cls.pack,
-      name: '${cls.name}_SpeedTest',
+      name: clsName,
       meta: null,
       kind: TDClass(null, interfaces, false),
       isExtern: false,
       fields: fields
     };
-    Context.defineType(typeDefinition);
+    var modulePath = cls.pack.concat([clsName]).join(".");
+    Context.defineModule(modulePath, [typeDefinition], imports, usings.map(function(use) {
+      var cls = use.get(),
+          parts = cls.module.split("."),
+          name = parts.pop();
+      return {
+        sub : null,
+        params : null,
+        pack : parts,
+        name : name
+      };
+    }));
   }
 
   static function ensureDescription(cls : ClassType, fields : Array<Field>) {
