@@ -10,6 +10,7 @@ class For implements thx.benchmark.test.ISpeedCase {
   var arr : Array<Int>;
   var value : Int;
   public function setup() {
+    value = 0;
     arr = [for(i in 0...10000) i % 100];
   }
 
@@ -23,11 +24,11 @@ class TestMap implements thx.benchmark.test.ISpeedCase {
   var description = "map";
   function test() {
     var result = 0;
-    arr.map(function(v) result += v);
+    arr.mapi(function(v, _) result += v);
     value = result;
   }
   var arr : Array<Int>;
-  var value : Int;
+  var value : Int = 0;
   public function setup() {
     arr = [for(i in 0...10000) i % 100];
   }
@@ -45,6 +46,7 @@ class Reduce implements thx.benchmark.test.ISpeedCase {
   var arr : Array<Int>;
   var value : Int;
   public function setup() {
+    value = 0;
     arr = [for(i in 0...10000) i % 100];
   }
 
