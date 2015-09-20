@@ -62,7 +62,9 @@ class SpeedCaseBuilder {
     });
 
     if(measure == null) {
-      Context.error('function does not contain a @:measure {} block', expr.pos);
+      measure = expr;
+      setup = [];
+      teardown = [];
     }
 
     var exprs = [

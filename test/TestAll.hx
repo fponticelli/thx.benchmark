@@ -41,6 +41,18 @@ class TestAll {
     Assert.equals(1, teardownValue);
   }
 
+  public function testFunctionBuilderMeasureOnly() {
+    var measureValue = 0;
+
+    var f = SpeedCaseBuilder.create(function() : Void {
+      measureValue++;
+    });
+
+    f(100);
+
+    Assert.equals(100, measureValue);
+  }
+
   public function testFunctionBuilderCompatFunction() {
     var setupValue = 0,
         measureValue = 0,
