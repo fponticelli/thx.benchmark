@@ -22,6 +22,7 @@ Elapsed time in seconds.
   var _elapsed : Float;
   var startTime : Float;
   var endTime : Null<Float>;
+  var endTemp : Float;
   var timer : Void -> Float;
   public function new(?timer : Void -> Float) {
     this.timer = null == timer ? thx.Timer.time : timer;
@@ -36,8 +37,9 @@ Elapsed time in seconds.
   }
 
   public function stop() {
+    endTemp = timer();
     if(!isRunning) return;
-    endTime = timer();
+    endTime = endTemp;
     isRunning = false;
     _elapsed += endTime - startTime;
   }
