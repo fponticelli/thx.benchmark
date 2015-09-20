@@ -22,10 +22,7 @@ class SpeedCaseBuilder {
           ret  : macro : Void,
           expr : expr
         }):
-        transformFunction(expr);
-        macro function test(count : Int) {
-          return 0.1;
-        };
+        return transformFunction(expr);
       case EFunction(_, {
           args : [{
             value : null,
@@ -42,29 +39,43 @@ class SpeedCaseBuilder {
 #if macro
   static function transformFunction(expr : Expr) {
     var setup = [],
-        measure = [],
+        measure = null,
         teardown = [],
         phase = 0;
     ExprTools.iter(expr, function(e) {
-      trace(e.expr);
       switch [e.expr, phase] {
-        case [EMeta({ name : ":measure" }, s), 0]:
-          measure.push(e);
-          phase = 1;
+      case [EMeta({ name : ":measure" }, e), 0]:
+          measure = e;
+          phase = 2;
         case [EMeta({ name : ":measure" }, _), _]:
           Context.error('@:measure can only be used once', e.pos);
         case [_, 0]: // setup
           setup.push(e);
         case [_, 1]: // measure
           phase = 2;
-          measure.push(e);
+          measure = e;
         case [_, 2]: // teardown
           teardown.push(e);
         case [_, _]:
           Context.error('should never happen', e.pos);
       }
-      trace(measure);
     });
+
+    if(measure == null) {
+      Context.error('function does not contain a @:measure {} block', expr.pos);
+    }
+
+    var exprs = [
+      [macro var __timer__ = new thx.benchmark.measure.Stopwatch()],
+      setup,
+      [macro __timer__.start()],
+      [macro while(--__counter__ >= 0) $e{measure}],
+      [macro __timer__.stop()],
+      teardown,
+      [macro return __timer__.elapsed]
+    ].flatten();
+
+    return macro function(__counter__ : Int) : Float $b{exprs};
   }
 #end
 

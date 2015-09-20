@@ -12,33 +12,55 @@ class TestAll {
 
   public function new() {}
 
-  // public function testBase() {
-  //   var test = SpeedCase.create(For);
-  //   trace(test.description);
-  //   trace(test.testSpeed(10000));
-  //
-  //   var test = SpeedCase.create(TestMap);
-  //   trace(test.description);
-  //   trace(test.testSpeed(10000));
-  //
-  //   var test = SpeedCase.create(Reduce);
-  //   trace(test.description);
-  //   trace(test.testSpeed(10000));
-  // }
-
-  public function testFunctionBuilder() {
-    SpeedCaseBuilder.create(function() {
+  public function testFunctionBuilderResult() {
+    var f = SpeedCaseBuilder.create(function() {
       var result;
-      @:measure result = 1;
+      @:measure { result++; }
       if(result == 0)
         throw 'invalid value returned';
     });
 
-    SpeedCaseBuilder.create(function() : Void {
-      var result;
-      @:measure result = 1;
-      if(result == 0)
-        throw 'invalid value returned';
+    Assert.isTrue(f(1000) >= 0);
+  }
+
+  public function testFunctionBuilderValues() {
+    var setupValue = 0,
+        measureValue = 0,
+        teardownValue = 0;
+
+    var f = SpeedCaseBuilder.create(function() : Void {
+      setupValue++;
+      @:measure { measureValue++; }
+      teardownValue++;
     });
+
+    f(100);
+
+    Assert.equals(1, setupValue);
+    Assert.equals(100, measureValue);
+    Assert.equals(1, teardownValue);
+  }
+
+  public function testFunctionBuilderCompatFunction() {
+    var setupValue = 0,
+        measureValue = 0,
+        teardownValue = 0;
+
+    var f = SpeedCaseBuilder.create(function(counter : Int) : Float {
+      setupValue++;
+      var start = haxe.Timer.stamp();
+      while(--counter >= 0) {
+        measureValue++;
+      }
+      var end = haxe.Timer.stamp();
+      teardownValue++;
+      return end - start;
+    });
+
+    f(100);
+
+    Assert.equals(1, setupValue);
+    Assert.equals(100, measureValue);
+    Assert.equals(1, teardownValue);
   }
 }
