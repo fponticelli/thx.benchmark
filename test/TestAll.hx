@@ -1,9 +1,6 @@
 import utest.UTest;
 import utest.Assert;
-// import ForVsMap;
-// import thx.benchmark.test.SpeedCase;
 import thx.benchmark.test.macro.SpeedCaseBuilder;
-
 
 class TestAll {
   public static function main() {
