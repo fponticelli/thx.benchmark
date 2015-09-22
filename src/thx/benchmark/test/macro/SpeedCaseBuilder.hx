@@ -71,7 +71,7 @@ class SpeedCaseBuilder {
       [macro var __timer__ = new thx.benchmark.measure.Stopwatch()],
       setup,
       [macro __timer__.start()],
-      [macro while(--__counter__ >= 0) $e{measure}],
+      [macro while(--__counter__ >= 0.0) $e{measure}],
       [macro __timer__.stop()],
       teardown,
       [macro return __timer__.elapsed]

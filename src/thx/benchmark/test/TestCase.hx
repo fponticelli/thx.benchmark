@@ -5,8 +5,10 @@ using thx.format.Format;
 class TestCase {
   static var desiredUncertainty = 0.01;
   static var minResolution = 1.0;
-  var f : Float -> Float;
-  public function new(f : Float -> Float) {
+  static var threshold : Int = 1073741824;
+  static var max : Int = 2147483647;
+  var f : Int -> Float;
+  public function new(f : Int -> Float) {
     this.f = f;
   }
 
@@ -16,34 +18,26 @@ class TestCase {
     var uncertainty = resolution / 2.0,
         minimumTestTime = uncertainty / desiredUncertainty,
         stats = null,
-        count = 1.0;
-    // var start = Timer.time(),
-    //     end, loop = 0.0;
-    // do {
-    //   loop++;
-    //   end = Timer.time();
-    // } while(end - start == 0);
-    // trace('start ${start.f("f")}');
-    // trace('end ${end.f("f")}, span ${end - start}');
-    //trace('resolution ${resolution.f("d")} ($resolution), minimumTestTime $minimumTestTime');
-    //return;
+        count = 1;
     do {
-      count *= 2.0;
       stats = new Stats(count, f(count));
-      //trace(count, stats.ms);
+      count *= 2;
+      if(count >= threshold) {
+        count = max;
+        stats = new Stats(count, f(count));
+        break; // will overflow
+      }
     } while(stats.ms <= minimumTestTime);
-
-    trace(stats);
   }
 }
 
 class Stats {
-  public var count(default, null) : Float;
+  public var count(default, null) : Int;
   public var ms(default, null) : Float;
   public var secs(default, null) : Float;
   public var period(default, null) : Float;
   public var hz(default, null) : Float;
-  public function new(count : Float, ms : Float) {
+  public function new(count : Int, ms : Float) {
     this.count = count;
     this.ms = ms;
     this.secs = ms / 1000.0;

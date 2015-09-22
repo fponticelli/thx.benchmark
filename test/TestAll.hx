@@ -12,8 +12,10 @@ class TestAll {
 
   public function testTestCase() {
     var test = new TestCase(SpeedCaseBuilder.create(function() {
-            var value = 0;
-            @:measure { value++; }
+            var value = 0.1;
+            @:measure { value *= value; }
+            if(value < 0)
+              throw 'error';
           }));
     test.run();
   }
