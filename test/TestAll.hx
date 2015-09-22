@@ -1,6 +1,7 @@
 import utest.UTest;
 import utest.Assert;
 import thx.benchmark.test.macro.SpeedCaseBuilder;
+import thx.benchmark.test.TestCase;
 
 class TestAll {
   public static function main() {
@@ -9,9 +10,17 @@ class TestAll {
 
   public function new() {}
 
+  public function testTestCase() {
+    var test = new TestCase(SpeedCaseBuilder.create(function() {
+            var value = 0;
+            @:measure { value++; }
+          }));
+    test.run();
+  }
+
   public function testFunctionBuilderResult() {
     var f = SpeedCaseBuilder.create(function() {
-      var result;
+      var result = 0;
       @:measure { result++; }
       if(result == 0)
         throw 'invalid value returned';
@@ -57,11 +66,11 @@ class TestAll {
 
     var f = SpeedCaseBuilder.create(function(counter : Int) : Float {
       setupValue++;
-      var start = haxe.Timer.stamp();
+      var start = thx.Timer.time();
       while(--counter >= 0) {
         measureValue++;
       }
-      var end = haxe.Timer.stamp();
+      var end = thx.Timer.time();
       teardownValue++;
       return end - start;
     });
