@@ -1,0 +1,11 @@
+-cp src
+-cp test
+-lib utest
+-lib hxcpp
+-lib thx.core
+-lib thx.format
+-cpp bin/cpp
+-main TestAll
+-D thx-core
+
+-cmd ./bin/cpp/TestAll
