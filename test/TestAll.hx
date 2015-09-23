@@ -18,6 +18,10 @@ class TestAll {
               throw 'error';
           }));
     test.run();
+    var stats = test.run(2, 100);
+    Assert.isTrue(stats.size >= 2);
+    Assert.isTrue(stats.ms > 0);
+    Assert.isTrue(stats.cycles > 0);
   }
 
   public function testFunctionBuilderResult() {
