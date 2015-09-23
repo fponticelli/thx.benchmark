@@ -1,6 +1,7 @@
 package thx.benchmark.test;
 
 using thx.format.Format;
+using thx.Arrays;
 
 class TestCase {
   static var desiredUncertainty = 0.01;
@@ -12,22 +13,46 @@ class TestCase {
     this.f = f;
   }
 
-  public function run() {
+  public function run(?minSamples : Int = 5, ?maxTime : Float = 5000) {
+    if(minSamples < 1)
+      throw new thx.Error("At least one sample is needed get a valid case");
     var resolution = Timer.resolution();
-    if(resolution < minResolution) resolution = minResolution;
+    if(resolution < minResolution)
+      resolution = minResolution;
     var uncertainty = resolution / 2.0,
         minimumTestTime = uncertainty / desiredUncertainty,
-        stats = null,
-        count = 1;
+        ms = 0.0,
+        count = 1,
+        samples = minSamples;
     do {
-      stats = new Stats(count, f(count));
-      count *= 2;
-      if(count >= threshold) {
-        count = max;
-        stats = new Stats(count, f(count));
-        break; // will overflow
+      if(ms > resolution * 5) {
+        // TODO add check for potential overflow (unlikely but possible)
+        count = Math.ceil(count / ms * minimumTestTime * 1.075);
+        ms = f(count);
+      } else {
+        count *= 2;
+        ms = f(count);
+        if(count >= threshold) {
+          count = max;
+          ms = f(count);
+          break; // will overflow
+        }
       }
-    } while(stats.ms <= minimumTestTime);
+    } while(ms <= minimumTestTime);
+    var acc = ms;
+    var sample = [ms];
+
+    for(i in 1...minSamples) {
+      var ms = f(count);
+      acc += ms;
+      sample.push(ms);
+    }
+    while(acc < maxTime) {
+      var ms = f(count);
+      acc += ms;
+      sample.push(ms);
+    }
+    return new Stats(sample, count);
   }
 }
 
