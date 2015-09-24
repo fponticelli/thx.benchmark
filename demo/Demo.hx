@@ -1,20 +1,28 @@
-import thx.benchmark.speed.SpeedSuite;
-import thx.benchmark.speed.SpeedTest;
+import thx.benchmark.test.*;
 
 class Demo {
   public static function main() {
-    var test = new SpeedTest();
-    var s = 0.0,
-        m = 0.0;
-    test.add("summation", function() {
-      s = 1 + s;
-    }, true);
-    test.add("multiplication", function() {
-      m = 2 * m;
+    var suite = new Suite(10, 2500);
+    suite.add("multiplication", function() {
+      var t = 1.2;
+      @:measure { t = t * 3.0; };
     });
-
-    var suite = new SpeedSuite();
-    suite.addTest("math operators", test, 10000000);
-    suite.run();
+    suite.add("division", function() {
+      var t = 1.2;
+      @:measure { t = t / 3.0; };
+    });
+    suite.add("sum", function() {
+      var t = 1.2;
+      @:measure { t = t + 3.0; };
+    });
+    suite.add("subtraction", function() {
+      var t = 1.2;
+      @:measure { t = t - 3.0; };
+    });
+    suite.add("modulo", function() {
+      var t = 1.2;
+      @:measure { t = t % 3.0; };
+    });
+    trace(suite.run().toString());
   }
 }

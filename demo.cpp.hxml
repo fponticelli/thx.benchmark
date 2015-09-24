@@ -2,7 +2,7 @@
 -cp demo
 -lib thx.core
 -lib thx.format
--js bin/js.js
+-cpp bin/cpp
 -main Demo
 
--cmd node bin/js.js
+-cmd bin/cpp/Demo
