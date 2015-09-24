@@ -22,13 +22,12 @@ class SuiteReport {
         values = [];
     for(k in tests.keys()) {
       var test = tests.get(k);
-      trace(test.cycles);
       max = test.cycles.max(max);
       min = test.cycles.min(min);
       var row = [
         k,
         test.cycles.number(0),
-        test.relativeMarginOfError.f("±0.##%"),
+        test.relativeMarginOfError.f("±0.00%"),
         test.size.f("#,##0")
       ];
       values.push(row);
