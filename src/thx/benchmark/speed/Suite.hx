@@ -8,7 +8,7 @@ using thx.OrderedMap;
 
 class Suite {
 #if !macro
-  var tests : OrderedMap<String, TestCase>;
+  var tests : OrderedMap<String, SpeedCase>;
   public var maxExecutionTime : Float;
   public var minSamples : Int;
   public function new(?minSamples : Int = 5, ?maxExecutionTime : Float = 5000.0) {
@@ -18,7 +18,7 @@ class Suite {
   }
 
   public function addCase(description : String, f : Int -> Float) {
-    tests.set(description, new TestCase(f));
+    tests.set(description, new SpeedCase(f));
   }
 
   public function run() {

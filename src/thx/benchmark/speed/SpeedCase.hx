@@ -2,7 +2,7 @@ package thx.benchmark.speed;
 
 using thx.Arrays;
 
-class TestCase {
+class SpeedCase {
   static var desiredUncertainty = 0.01;
   static var minResolution = 1.0;
   static var threshold : Int = 1073741824;

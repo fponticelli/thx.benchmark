@@ -19,8 +19,8 @@ class TestAll {
     trace(report.toString());
   }
 
-  public function testTestCase() {
-    var test = new TestCase(SpeedCaseBuilder.create(function() {
+  public function testSpeedCase() {
+    var test = new SpeedCase(SpeedCaseBuilder.create(function() {
             var value = 0.1;
             @:measure { value *= value; }
             if(value < 0)
