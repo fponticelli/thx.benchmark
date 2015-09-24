@@ -1,6 +1,5 @@
 package thx.benchmark.test;
 
-using thx.format.Format;
 using thx.Arrays;
 
 class TestCase {
@@ -13,7 +12,7 @@ class TestCase {
     this.f = f;
   }
 
-  public function run(?minSamples : Int = 5, ?maxTime : Float = 5000) {
+  public function run(?minSamples : Int = 5, ?maxTime : Float = 5000.0, ?maxSamples : Int = 100000) {
     if(minSamples < 1)
       throw new thx.Error("At least one sample is needed get a valid case");
     var resolution = Timer.resolution();
@@ -47,56 +46,11 @@ class TestCase {
       acc += ms;
       sample.push(ms);
     }
-    while(acc < maxTime) {
+    while(acc < maxTime && sample.length < maxSamples) {
       var ms = f(count);
       acc += ms;
       sample.push(ms);
     }
     return new Stats(sample, count);
   }
-}
-
-class Stats {
-  public var count(default, null) : Int;
-  public var samples(default, null) : Array<Float>;
-  public var size(get, null) : Int;
-  public var ms(get, null) : Float;
-  public var standardDeviation(get, null) : Float;
-  public var standardErrorOfMean(get, null) : Float;
-  public var seconds(get, null) : Float;
-  public var period(get, null) : Float;
-  public var cycles(get, null) : Float;
-  public function new(samples : Array<Float>, count : Int) {
-    this.count = count;
-    this.samples = samples;
-  }
-
-  inline function get_size()
-    return samples.length;
-
-  inline function get_ms()
-    return samples.average();
-
-  inline function get_standardDeviation()
-    return samples.standardDeviation();
-
-  function get_standardErrorOfMean()
-    return standardDeviation / Math.sqrt(size);
-
-  function get_seconds()
-    return ms / 1000.0;
-
-  function get_period()
-    return seconds / count;
-
-  function get_cycles()
-    return 1.0 / period;
-
-  public function toString()
-    return 'stats on $size samples
-cycles...................: ${cycles.f("#,##0")} hz
-execution................: ${seconds > 1 ? seconds.f("#,##0.### s") : ms.f("#,##0.### ms")}
-repetitions..............: ${count.f("#,##0")}
-standard deviation.......: ${standardDeviation.f("n")}
-standard error of mean...: ${standardErrorOfMean.f("n")}';
 }
