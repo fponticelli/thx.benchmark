@@ -12,6 +12,10 @@ import haxe.macro.Context;
 
 class SpeedCaseBuilder {
   macro public static function create(f : Expr) {
+    return createF(f);
+  }
+
+  public static function createF(f : Expr) {
     return switch f.expr {
       case EFunction(_, {
           args : [],
@@ -36,7 +40,7 @@ class SpeedCaseBuilder {
       case other: Context.error('unexpected expression $other', f.pos);
     };
   }
-#if macro
+
   static function transformFunction(expr : Expr) {
     var setup = [],
         measure = null,
@@ -79,5 +83,4 @@ class SpeedCaseBuilder {
 
     return macro function(__counter__ : Int) : Float $b{exprs};
   }
-#end
 }

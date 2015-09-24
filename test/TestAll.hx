@@ -18,7 +18,7 @@ class TestAll {
               throw 'error';
           }));
     test.run();
-    var stats = test.run(2, 100);
+    var stats = test.run(2, 50);
     Assert.isTrue(stats.size >= 2);
     Assert.isTrue(stats.ms > 0);
     Assert.isTrue(stats.cycles > 0);
