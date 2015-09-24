@@ -1,4 +1,4 @@
-package thx.benchmark.test;
+package thx.benchmark.speed;
 
 #if macro
 import haxe.macro.Expr;
@@ -33,7 +33,7 @@ class Suite {
 #end
 
   macro public function add(ethis : Expr, description : String, f : ExprOf<haxe.Constraints.Function>) {
-    var t = thx.benchmark.test.macro.SpeedCaseBuilder.createF(f);
+    var t = thx.benchmark.speed.macro.SpeedCaseBuilder.createF(f);
     return macro $ethis.addCase($v{description}, $t);
   }
 }

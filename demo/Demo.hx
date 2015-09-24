@@ -1,4 +1,4 @@
-import thx.benchmark.test.*;
+import thx.benchmark.speed.*;
 
 class Demo {
   public static function main() {

@@ -1,7 +1,7 @@
 import utest.UTest;
 import utest.Assert;
-import thx.benchmark.test.macro.SpeedCaseBuilder;
-import thx.benchmark.test.TestCase;
+import thx.benchmark.speed.macro.SpeedCaseBuilder;
+import thx.benchmark.speed.*;
 
 class TestAll {
   public static function main() {
@@ -9,6 +9,15 @@ class TestAll {
   }
 
   public function new() {}
+
+  public function testSuite() {
+    var suite = new Suite(2, 100);
+    suite.addCase("case #1", function(loop) return loop * 4);
+    suite.addCase("case #2", function(loop) return loop * 3);
+    suite.addCase("case #3", function(loop) return loop * 2);
+    var report = suite.run();
+    trace(report.toString());
+  }
 
   public function testTestCase() {
     var test = new TestCase(SpeedCaseBuilder.create(function() {

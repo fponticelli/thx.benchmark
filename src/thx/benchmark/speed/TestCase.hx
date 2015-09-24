@@ -1,4 +1,4 @@
-package thx.benchmark.test;
+package thx.benchmark.speed;
 
 using thx.Arrays;
 

@@ -1,4 +1,4 @@
-package thx.benchmark.test.macro;
+package thx.benchmark.speed.macro;
 
 using thx.Arrays;
 using thx.macro.MacroFields;

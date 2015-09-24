@@ -1,4 +1,4 @@
-package thx.benchmark.test;
+package thx.benchmark.speed;
 
 using thx.format.Format;
 using thx.Arrays;
@@ -30,16 +30,16 @@ class Stats {
   inline function get_size()
     return samples.length;
 
-  var _ms : Float;
+  var _ms : Float = -1;
   function get_ms() {
-    if(0.0 == _ms)
+    if(0.0 > _ms)
       _ms = samples.average();
     return _ms;
   }
 
-  var _standardDeviation : Float;
+  var _standardDeviation : Float = -1;
   function get_standardDeviation() {
-    if(0.0 == _standardDeviation)
+    if(0.0 > _standardDeviation)
       _standardDeviation = samples.standardDeviation();
     return _standardDeviation;
   }
