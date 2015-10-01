@@ -15,6 +15,7 @@ class SpeedCaseBuilder {
     return createF(f);
   }
 
+#if macro
   public static function createF(f : Expr) {
     return switch f.expr {
       case EFunction(_, {
@@ -83,4 +84,5 @@ class SpeedCaseBuilder {
 
     return macro function(__counter__ : Int) : Float $b{exprs};
   }
+#end
 }
