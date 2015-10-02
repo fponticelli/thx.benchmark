@@ -3,6 +3,11 @@ package thx.benchmark.speed;
 using thx.Arrays;
 
 class SpeedCase {
+  macro public static function execute(expr : haxe.macro.Expr, ?minSamples : Int, ?maxTime : Float, ?maxSamples : Int) {
+    var f = thx.benchmark.speed.macro.SpeedCaseBuilder.createF(expr);
+    return macro new SpeedCase($e{f}).run($v{minSamples}, $v{maxTime}, $v{maxSamples});
+  };
+#if !macro
   static var desiredUncertainty = 0.01;
   static var minResolution = 1.0;
   static var threshold : Int = 1073741824;
@@ -53,4 +58,5 @@ class SpeedCase {
     }
     return new Stats(sample, count);
   }
+#end
 }

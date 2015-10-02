@@ -29,8 +29,7 @@ class Demo {
   static inline var height = 20;
 
   public static function main() {
-    var suite = new Suite(10, 4000);
-    suite.add("madlebrot", function() {
+    var stats = SpeedCase.execute(function() {
       var palette = [],
           image = [];
       @:measure {
@@ -53,8 +52,7 @@ class Demo {
         }
       };
     });
-    var r = suite.run();
-    trace(r.toString());
+    trace(stats.toString());
   }
 
   public static function complexLength2(val:Complex) : Float

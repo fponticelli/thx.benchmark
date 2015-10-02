@@ -1,6 +1,6 @@
 package thx.benchmark.speed;
 
-using thx.format.Format;
+using thx.format.NumberFormat;
 using thx.Arrays;
 
 class Stats {
@@ -73,7 +73,7 @@ class Stats {
     return marginOfError / ms;
 
   public function toString()
-    return '${cycles < 100 ? cycles.f("#,##0.##") : cycles.f("#,##0")} ops/sec ±${relativeMarginOfError.f("#,##0.##%")} ($size run${size == 1 ? "" : "s"} sampled)';
+    return '${cycles < 100 ? cycles.format("#,##0.##") : cycles.format("#,##0")} ops/sec ±${relativeMarginOfError.format("#,##0.##%")} ($size run${size == 1 ? "" : "s"} sampled)';
 
   static var tTable_infinity = 1.96;
   static var tTable = [
