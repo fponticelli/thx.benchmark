@@ -1,0 +1,8 @@
+-cp src
+-cp demo
+-lib thx.core
+-lib thx.format
+-java bin/java
+-main Demo
+
+-cmd java -jar bin/java/Demo.jar

@@ -24,9 +24,28 @@ class SuiteReport {
       var test = tests.get(k);
       max = test.cycles.max(max);
       min = test.cycles.min(min);
+      var cycles =  if(test.cycles >= 100)
+                      test.cycles.number(0)
+                    else if(test.cycles > 10)
+                      test.cycles.number(1)
+                    else if(test.cycles > 1)
+                      test.cycles.number(2)
+                    else if(test.cycles > 0.1)
+                      test.cycles.number(3)
+                    else if(test.cycles > 0.01)
+                      test.cycles.number(4)
+                    else if(test.cycles > 0.001)
+                      test.cycles.number(5)
+                    else if(test.cycles > 0.0001)
+                      test.cycles.number(6)
+                    else if(test.cycles > 0.00001)
+                      test.cycles.number(7)
+                    else
+                      test.cycles.number(8)
+                    ;
       var row = [
         k,
-        test.cycles.number(0),
+        cycles,
         test.relativeMarginOfError.f("±0.00%"),
         test.size.f("#,##0")
       ];

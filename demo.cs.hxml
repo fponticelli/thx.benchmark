@@ -1,0 +1,8 @@
+-cp src
+-cp demo
+-lib thx.core
+-lib thx.format
+-cs bin/cs
+-main Demo
+
+-cmd mono bin/cs/bin/Demo.exe
