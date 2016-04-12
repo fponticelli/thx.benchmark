@@ -25,7 +25,7 @@ Elapsed time in seconds.
   var endTemp : Float;
   var timer : Void -> Float;
   public function new(?timer : Void -> Float) {
-    this.timer = null == timer ? thx.Timer.time : timer;
+    this.timer = null == timer ? function() return thx.Timer.time() : timer;
     _elapsed = 0;
     isRunning = false;
   }
