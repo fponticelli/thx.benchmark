@@ -1,7 +1,12 @@
+import Map as MuMap;
 import utest.UTest;
 import utest.Assert;
 import thx.benchmark.speed.macro.SpeedCaseBuilder;
 import thx.benchmark.speed.*;
+import thx.fp.Map as ImMap;
+using thx.Arrays;
+using thx.Ints;
+using thx.fp.Maps;
 
 class TestAll {
   public static function main() {
@@ -17,6 +22,7 @@ class TestAll {
     suite.addCase("case #3", function(loop) return loop * 2);
     var report = suite.run();
     trace(report.toString());
+    Assert.pass();
   }
 
   public function testSpeedCase() {
@@ -95,5 +101,40 @@ class TestAll {
     Assert.equals(1, setupValue);
     Assert.equals(100, measureValue);
     Assert.equals(1, teardownValue);
+  }
+
+  public function testMapsGetSet() {
+    var suite = new Suite(2, 5000);
+
+    suite.add('mutable map', function() {
+      var map : MuMap<String, Int> = new MuMap();
+      var result = 0;
+      var key : String = null;
+      @:measure {
+        key = '${Math.random()}';
+        map.set(key, 42);
+        result = map.get(key);
+      }
+      if (result != 42) throw 'expected 42';
+    });
+
+    suite.add('immutable map', function() {
+      var map : ImMap<String, Int> = ImMap.empty();
+      var result = 0;
+      var key : String = null;
+      @:measure {
+        key = '${Math.random()}';
+        map = map.set(key, 42);
+        result = switch map.get(key) {
+          case Some(value) : value;
+          case None : throw 'expected value for key $key';
+        };
+      }
+      if (result != 42) throw 'expected 42';
+    });
+
+    var report = suite.run();
+    trace(report.toString());
+    Assert.pass();
   }
 }
