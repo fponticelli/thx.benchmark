@@ -1,0 +1,8 @@
+-cp src
+-cp demo
+-lib thx.core
+-lib thx.format
+-js bin/MapVsNativeMap.js
+-main MapVsNativeMap
+
+-cmd node bin/MapVsNativeMap.js
