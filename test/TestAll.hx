@@ -21,7 +21,7 @@ class TestAll {
     suite.addCase("case #2", function(loop) return loop * 3);
     suite.addCase("case #3", function(loop) return loop * 2);
     var report = suite.run();
-    trace(report.toString());
+    // trace(report.toString());
     Assert.pass();
   }
 

@@ -5,8 +5,8 @@
   "classPath": "src",
   "tags": ["math", "thx", "cross"],
   "description": "Tools to measure code execution timing.",
-  "releasenote": "First release.",
-  "version": "0.0.1",
+  "releasenote": "Lots of improvements.",
+  "version": "0.1.0",
   "contributors": ["fponticelli"],
   "dependencies": {
     "thx.core": "",
