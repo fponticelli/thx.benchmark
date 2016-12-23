@@ -1,7 +1,7 @@
-import thx.benchmark.speed.ISpeedCase;
+import thx.benchmark.measure.Stopwatch;
+import thx.benchmark.measure.Tracker;
 import thx.benchmark.speed.SpeedCase;
-import thx.benchmark.speed.SpeedResult;
-import thx.benchmark.speed.SpeedSuite;
-import thx.benchmark.speed.SpeedSummary;
-import thx.benchmark.speed.SpeedTest;
-import thx.benchmark.speed.SpeedTestSummary;
+import thx.benchmark.speed.Stats;
+import thx.benchmark.speed.Suite;
+import thx.benchmark.speed.SuiteReport;
+import thx.benchmark.speed.macro.SpeedCaseBuilder;
